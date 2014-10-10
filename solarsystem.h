@@ -17,6 +17,7 @@ public:
     void addCelestialBody(CelestialBody newBody);
     void calculateForcesAndEnergy();
     int numberOfBodies();
+    double totalEnergy();
 };
 
 #endif // SOLARSYSTEM_H
