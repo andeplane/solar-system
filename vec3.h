@@ -18,16 +18,23 @@ public:
     vec3 operator-(double scalar);
     vec3 operator*(double scalar);
     vec3 operator/(double scalar);
-    // void add(vec3 &rhs); // Possibly broken
-    // void addAndMultiply(vec3 &rhs, double scalar); // Possibly broken
+    inline void add(vec3 &rhs) {
+        m_vec[0] += rhs.x();
+        m_vec[1] += rhs.y();
+        m_vec[2] += rhs.z();
+    }
+
+    inline void addAndMultiply(vec3 &rhs, double scalar) {
+        m_vec[0] += rhs.x()*scalar;
+        m_vec[1] += rhs.y()*scalar;
+        m_vec[2] += rhs.z()*scalar;
+    }
     vec3 cross(vec3 &rhs);
     double dot(vec3 &rhs);
     double length();
     double lengthSquared();
     void normalize();
     void setToZero();
-    void randomGaussian(double mean, double standardDeviation);
-    void randomUniform(double min, double max);
     void set(double x, double y, double z);
     inline double x() const { return m_vec[0]; }
     inline double y() const { return m_vec[1]; }

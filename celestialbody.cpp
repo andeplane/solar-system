@@ -1,22 +1,17 @@
 #include "celestialbody.h"
 
-CelestialBody::CelestialBody(double x, double y, double z, double vx, double vy, double vz, double mass_) {
-    position[0] = x;
-    position[1] = y;
-    position[2] = z;
-
-    velocity[0] = vx;
-    velocity[1] = vy;
-    velocity[2] = vz;
-
+CelestialBody::CelestialBody(vec3 pos, vec3 vel, double mass_) {
+    position = pos;
+    velocity = vel;
     mass = mass_;
 
     resetForce();
 }
 
+CelestialBody::CelestialBody(double x, double y, double z, double vx, double vy, double vz, double mass_) {
+    CelestialBody(vec3(x,y,z), vec3(vx, vy, vz), mass_);
+}
+
 void CelestialBody::resetForce() {
-    // force.zeros(); // Armadillo
-    force[0] = 0;
-    force[1] = 0;
-    force[2] = 0;
+    force.setToZero();
 }

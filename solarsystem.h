@@ -8,9 +8,15 @@ using std::vector;
 class SolarSystem
 {
 public:
-    vector<CelestialBody> objects;
+    vector<CelestialBody> bodies;
+    double kineticEnergy;
+    double potentialEnergy;
+    vec3 angularMomentum;
+
     SolarSystem();
-    void addCelestialBody(CelestialBody newObject);
+    void addCelestialBody(CelestialBody newBody);
+    void calculateForcesAndEnergy();
+    int numberOfBodies();
 };
 
 #endif // SOLARSYSTEM_H
