@@ -15,6 +15,10 @@ void SolarSystem::calculateForcesAndEnergy()
     m_potentialEnergy = 0;
     m_angularMomentum.zeros();
 
+    for(CelestialBody &body : m_bodies) {
+        body.resetForce();
+    }
+
     for(int i=0; i<numberOfBodies(); i++) {
         CelestialBody &body1 = m_bodies[i];
         for(int j=i+1; j<numberOfBodies(); j++) {
