@@ -1,49 +1,111 @@
-#pragma once
-#include <iostream>
+#ifndef VEC3_H
+#define VEC3_H
+#include <string>
+#include <vector>
 
 class vec3
 {
-private:
-    double m_vec[3];
 public:
-
-    vec3(); // Create a zero vector
+    vec3();
     vec3(double x, double y, double z);
-    bool operator==(vec3 &rhs);
-    vec3 operator+(vec3 &rhs);
-    vec3 operator-(vec3 &rhs);
-    vec3 operator*(vec3 &rhs);
-    vec3 operator/(vec3 &rhs);
-    vec3 operator+(double scalar);
-    vec3 operator-(double scalar);
-    vec3 operator*(double scalar);
-    vec3 operator/(double scalar);
-    inline void add(vec3 &rhs) {
-        m_vec[0] += rhs.x();
-        m_vec[1] += rhs.y();
-        m_vec[2] += rhs.z();
-    }
-
-    inline void addAndMultiply(vec3 &rhs, double scalar) {
-        m_vec[0] += rhs.x()*scalar;
-        m_vec[1] += rhs.y()*scalar;
-        m_vec[2] += rhs.z()*scalar;
-    }
-    vec3 cross(vec3 &rhs);
-    double dot(vec3 &rhs);
-    double length();
     double lengthSquared();
+    double length();
+
+    // Actions
+    void zeros();
+    vec3 cross(vec3 otherVector);
+    double dot(vec3 otherVector);
     void normalize();
-    void setToZero();
-    void set(double x, double y, double z);
-    inline double x() const { return m_vec[0]; }
-    inline double y() const { return m_vec[1]; }
-    inline double z() const { return m_vec[2]; }
-    inline double &operator[](int index) { return m_vec[index]; }
-    inline double operator[](int index) const { return m_vec[index]; }
+    vec3 normalized();
 
+    // Getters and setters
+    double x() const { return components[0]; }
+    double y() const { return components[1]; }
+    double z() const { return components[2]; }
+    void setX(double x) { components[0] = x; }
+    void setY(double y) { components[1] = y; }
+    void setZ(double z) { components[2] = z; }
+
+    // Convenience functions
+    void print();
+    void print(std::string name);
+    friend std::ostream& operator<<(std::ostream& os, const vec3& myVector); // Allows cout << myVector << endl;
+
+    // Operators
+    double &operator()(int index) { return components[index]; } // Allows access like myVector(0)
+    double &operator[](int index) { return components[index]; } // Allows access like myVector[0]
+    vec3 &operator+=(double rhs); // Componentwise addition with scalar
+    vec3 &operator+=(vec3 rhs);   // Componentwise addition with vector
+    vec3 &operator*=(double rhs); // Componentwise multiplication with scalar
+    vec3 &operator*=(vec3 rhs);   // Componentwise multiplicationwith vector
+    vec3 &operator-=(double rhs); // Componentwise subtraction with scalar
+    vec3 &operator-=(vec3 rhs);   // Componentwise subtraction with vector
+    vec3 &operator/=(double rhs); // Componentwise division with scalar
+    vec3 &operator/=(vec3 rhs);   // Componentwise division with vector
 private:
-    friend std::ostream& operator<<(std::ostream&stream, vec3 &vec);
-
-
+    double components[3];
 };
+
+inline vec3 operator+(vec3 lhs, double rhs) {
+    lhs += rhs;
+    return lhs;
+}
+
+inline vec3 operator+(double lhs, vec3 rhs) {
+    rhs += lhs;
+    return rhs;
+}
+
+inline vec3 operator+(vec3 lhs, vec3 rhs) {
+    lhs += rhs;
+    return lhs;
+}
+
+inline vec3 operator-(vec3 lhs, double rhs) {
+    lhs -= rhs;
+    return lhs;
+}
+
+inline vec3 operator-(double lhs, vec3 rhs) {
+    rhs -= lhs;
+    return rhs;
+}
+
+inline vec3 operator-(vec3 lhs, vec3 rhs) {
+    lhs -= rhs;
+    return lhs;
+}
+
+
+inline vec3 operator*(vec3 lhs, double rhs) {
+    lhs *= rhs;
+    return lhs;
+}
+
+inline vec3 operator*(double lhs, vec3 rhs) {
+    rhs *= lhs;
+    return rhs;
+}
+
+inline vec3 operator*(vec3 lhs, vec3 rhs) {
+    lhs *= rhs;
+    return lhs;
+}
+
+
+inline vec3 operator/(vec3 lhs, double rhs) {
+    lhs /= rhs;
+    return lhs;
+}
+
+inline vec3 operator/(double lhs, vec3 rhs) {
+    rhs /= lhs;
+    return rhs;
+}
+
+inline vec3 operator/(vec3 lhs, vec3 rhs) {
+    lhs /= rhs;
+    return lhs;
+}
+
+#endif // VEC3_H

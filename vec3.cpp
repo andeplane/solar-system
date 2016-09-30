@@ -1,109 +1,145 @@
+#include "vec3.h"
 #include <cmath>
-#include <vec3.h>
+#include <iostream>
+using namespace std;
 
 vec3::vec3()
 {
-    setToZero();
+    zeros();
 }
 
 vec3::vec3(double x, double y, double z)
 {
-    set(x,y,z);
+    components[0] = x;
+    components[1] = y;
+    components[2] = z;
 }
 
-bool vec3::operator==(vec3 &rhs) {
-    return(m_vec[0] == rhs.x() && m_vec[1] == rhs.y() && m_vec[2] == rhs.z());
+void vec3::print()
+{
+    // Will print matlab syntax vector. Output will be like: [2.09, 5.3, 9.1];
+    cout << "[" << components[0] << ", " << components[1] << ", " << components[2] << "]" << endl;
 }
 
-vec3 vec3::operator+(vec3 &rhs) {
-    return vec3( m_vec[0] + rhs.x(),
-            m_vec[1] + rhs.y(),
-            m_vec[2] + rhs.z());
+void vec3::print(string name)
+{
+    // Will print matlab syntax vector with a name. Output will be like: A = [2.09, 5.3, 9.1];
+    cout << name << " = ";
+    print();
 }
 
-vec3 vec3::operator-(vec3 &rhs) {
-    return vec3( m_vec[0] - rhs.x(),
-            m_vec[1] - rhs.y(),
-            m_vec[2] - rhs.z());
+vec3 vec3::cross(vec3 otherVector)
+{
+    return vec3(y()*otherVector.z()-z()*otherVector.y(), z()*otherVector.x()-x()*otherVector.z(), x()*otherVector.y()-y()*otherVector.x());
 }
 
-vec3 vec3::operator*(vec3 &rhs) {
-    return vec3( m_vec[0] * rhs.x(),
-            m_vec[1] * rhs.y(),
-            m_vec[2] * rhs.z());
+double vec3::dot(vec3 otherVector)
+{
+    return otherVector[0]*components[0] + otherVector[1]*components[1] + otherVector[2]*components[2];
 }
 
-vec3 vec3::operator/(vec3 &rhs) {
-    return vec3( m_vec[0] / rhs.x(),
-            m_vec[1] / rhs.y(),
-            m_vec[2] / rhs.z());
-}
-
-vec3 vec3::operator+(double scalar) {
-    return vec3(m_vec[0] + scalar,
-            m_vec[1] + scalar,
-            m_vec[2] + scalar);
-}
-
-vec3 vec3::operator-(double scalar) {
-    return vec3(m_vec[0] - scalar,
-            m_vec[1] - scalar,
-            m_vec[2] - scalar);
-}
-
-vec3 vec3::operator*(double scalar) {
-    return vec3(m_vec[0] * scalar,
-            m_vec[1] * scalar,
-            m_vec[2] * scalar);
-}
-
-vec3 vec3::operator/(double scalar) {
-    return vec3(m_vec[0] / scalar,
-            m_vec[1] / scalar,
-            m_vec[2] / scalar);
-}
-
-double vec3::dot(vec3 &rhs) {
-    return (m_vec[0] * rhs.x() +
-            m_vec[1] * rhs.y() +
-            m_vec[2] * rhs.z());
-}
-
-vec3 vec3::cross(vec3 &rhs) {
-    return vec3( m_vec[1] * rhs.z() - m_vec[2] * rhs.y(),
-            m_vec[2] * rhs.x() - m_vec[0] * rhs.z(),
-            m_vec[0] * rhs.y() - m_vec[1] * rhs.x());
-}
-
-double vec3::length() {
-    return sqrt(lengthSquared());
-}
-
-double vec3::lengthSquared() {
-    return m_vec[0]*m_vec[0] + m_vec[1]*m_vec[1] + m_vec[2]*m_vec[2];
-}
-
-void vec3::normalize() {
-    double myLength = length();
-    if(myLength > 0) { // Don't divide by zero...
-        m_vec[0] /= myLength;
-        m_vec[1] /= myLength;
-        m_vec[2] /= myLength;
+void vec3::normalize()
+{
+    double length = this->length();
+    if(length > 0) {
+        components[0] /= length;
+        components[1] /= length;
+        components[2] /= length;
     }
 }
 
-void vec3::setToZero()
+vec3 vec3::normalized()
 {
-    set(0,0,0);
+    vec3 newVector = *this;
+    newVector.normalize();
+    return newVector;
 }
 
-void vec3::set(double x, double y, double z)
+double vec3::lengthSquared()
 {
-    m_vec[0] = x;
-    m_vec[1] = y;
-    m_vec[2] = z;
+    // Returns the square of the length (or norm) of the vector
+    return components[0]*components[0]+components[1]*components[1]+components[2]*components[2];
 }
 
-std::ostream& operator<<(std::ostream &stream, vec3 &vec) {
-    return stream << "[" << vec.x() << ", " << vec.y() << ", " << vec.z() << "]";
+double vec3::length()
+{
+    // Returns the length (or norm) of the vector
+    return sqrt(lengthSquared());
+}
+
+void vec3::zeros()
+{
+    components[0] = 0;
+    components[1] = 0;
+    components[2] = 0;
+}
+
+vec3 &vec3::operator+=(double rhs)
+{
+    components[0] += rhs;
+    components[1] += rhs;
+    components[2] += rhs;
+    return *this;
+}
+
+vec3 &vec3::operator+=(vec3 rhs)
+{
+    components[0] += rhs[0];
+    components[1] += rhs[1];
+    components[2] += rhs[2];
+    return *this;
+}
+
+vec3 &vec3::operator*=(double rhs)
+{
+    components[0] *= rhs;
+    components[1] *= rhs;
+    components[2] *= rhs;
+    return *this;
+}
+
+vec3 &vec3::operator*=(vec3 rhs)
+{
+    components[0] *= rhs[0];
+    components[1] *= rhs[1];
+    components[2] *= rhs[2];
+    return *this;
+}
+
+vec3 &vec3::operator-=(double rhs)
+{
+    components[0] -= rhs;
+    components[1] -= rhs;
+    components[2] -= rhs;
+    return *this;
+}
+
+vec3 &vec3::operator-=(vec3 rhs)
+{
+    components[0] -= rhs[0];
+    components[1] -= rhs[1];
+    components[2] -= rhs[2];
+    return *this;
+}
+
+vec3 &vec3::operator/=(double rhs)
+{
+    components[0] /= rhs;
+    components[1] /= rhs;
+    components[2] /= rhs;
+    return *this;
+}
+
+vec3 &vec3::operator/=(vec3 rhs)
+{
+    components[0] /= rhs[0];
+    components[1] /= rhs[1];
+    components[2] /= rhs[2];
+    return *this;
+}
+
+std::ostream &operator<<(std::ostream &os, const vec3 &myVector) // Allows cout << myVector << endl;
+{
+    os << "[" << myVector.x() << ", " << myVector.y() << ", " << myVector.z() << "];";
+    return os;
 }

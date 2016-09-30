@@ -13,5 +13,5 @@ CelestialBody::CelestialBody(double x, double y, double z, double vx, double vy,
 }
 
 void CelestialBody::resetForce() {
-    force.setToZero();
+    force.zeros();
 }

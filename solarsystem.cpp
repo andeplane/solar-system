@@ -4,35 +4,56 @@ SolarSystem::SolarSystem()
 {
 }
 
-void SolarSystem::addCelestialBody(CelestialBody newBody) {
-    bodies.push_back(newBody);
+CelestialBody& SolarSystem::createCelestialBody(vec3 position, vec3 velocity, double mass) {
+    m_bodies.push_back( CelestialBody(position, velocity, mass) );
+    return m_bodies.back(); // Return reference to the newest added celstial body
 }
 
 void SolarSystem::calculateForcesAndEnergy()
 {
-    kineticEnergy = 0;
-    potentialEnergy = 0;
-    angularMomentum.setToZero();
+    m_kineticEnergy = 0;
+    m_potentialEnergy = 0;
+    m_angularMomentum.zeros();
 
     for(int i=0; i<numberOfBodies(); i++) {
-        CelestialBody &body1 = bodies[i];
+        CelestialBody &body1 = m_bodies[i];
         for(int j=i+1; j<numberOfBodies(); j++) {
-            CelestialBody &body2 = bodies[j];
+            CelestialBody &body2 = m_bodies[j];
             vec3 deltaRVector = body1.position - body2.position;
             double dr = deltaRVector.length();
             // Calculate the force and potential energy here
         }
 
-        kineticEnergy += 0.5*body1.mass*body1.velocity.lengthSquared();
+        m_kineticEnergy += 0.5*body1.mass*body1.velocity.lengthSquared();
     }
 }
 
 int SolarSystem::numberOfBodies()
 {
-    return bodies.size();
+    return m_bodies.size();
 }
 
-double SolarSystem::totalEnergy()
+double SolarSystem::totalEnergy() const
 {
-    return kineticEnergy + potentialEnergy;
+    return m_kineticEnergy + m_potentialEnergy;
+}
+
+double SolarSystem::potentialEnergy() const
+{
+    return m_potentialEnergy;
+}
+
+double SolarSystem::kineticEnergy() const
+{
+    return m_kineticEnergy;
+}
+
+vec3 SolarSystem::angularMomentum() const
+{
+    return m_angularMomentum;
+}
+
+std::vector<CelestialBody> &SolarSystem::bodies()
+{
+    return m_bodies;
 }
