@@ -1,7 +1,7 @@
 #ifndef SOLARSYSTEM_H
 #define SOLARSYSTEM_H
 
-#include <celestialbody.h>
+#include "celestialbody.h"
 #include <vector>
 
 class SolarSystem

@@ -16,7 +16,7 @@ void SolarSystem::calculateForcesAndEnergy()
     m_angularMomentum.zeros();
 
     for(CelestialBody &body : m_bodies) {
-        body.resetForce();
+        body.force.zeros();
     }
 
     for(int i=0; i<numberOfBodies(); i++) {

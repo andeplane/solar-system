@@ -1,15 +1,16 @@
 #include <iostream>
 #include <cmath>
-
-#include <solarsystem.h>
-#include <rk4.h>
+#include "solarsystem.h"
+#include "euler.h"
 
 using namespace std;
 
-int main()
+int main(int numArguments, char **arguments)
 {
-    SolarSystem solarSystem;
+    int numTimesteps = 1000;
+    if(numArguments >= 2) numTimesteps = atoi(arguments[1]);
 
+    SolarSystem solarSystem;
     // We create new bodies like this. Note that the createCelestialBody function returns a reference to the newly created body
     // This can then be used to modify properties or print properties of the body if desired
     CelestialBody &sun = solarSystem.createCelestialBody( vec3(0,0,0), vec3(0,0,0), 1.0 );
@@ -17,9 +18,15 @@ int main()
 
     // To get a list (a reference, not copy) of all the bodies in the solar system, we use the .bodies() function
     vector<CelestialBody> &bodies = solarSystem.bodies();
+
     for(int i = 0; i<bodies.size(); i++) {
-        CelestialBody &thisBody = bodies[i]; // Reference to this body
-        cout << "The position of this object is " << thisBody.position << " with velocity " << thisBody.velocity << endl;
+        CelestialBody &body = bodies[i]; // Reference to this body
+        cout << "The position of this object is " << body.position << " with velocity " << body.velocity << endl;
+    }
+
+    Euler integrator(0.001);
+    for(int timestep=0; timestep<numTimesteps; timestep++) {
+        integrator.integrateOneStep(solarSystem);
     }
 
     cout << "I just created my first solar system that has " << solarSystem.bodies().size() << " objects." << endl;
