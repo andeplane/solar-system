@@ -1,6 +1,8 @@
 #include "solarsystem.h"
 
-SolarSystem::SolarSystem()
+SolarSystem::SolarSystem() :
+    m_kineticEnergy(0),
+    m_potentialEnergy(0)
 {
 }
 
@@ -32,7 +34,7 @@ void SolarSystem::calculateForcesAndEnergy()
     }
 }
 
-int SolarSystem::numberOfBodies()
+int SolarSystem::numberOfBodies() const
 {
     return m_bodies.size();
 }

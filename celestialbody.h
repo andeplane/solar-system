@@ -1,6 +1,8 @@
 #ifndef CELESTIALBODY_H
 #define CELESTIALBODY_H
+
 #include "vec3.h"
+
 class CelestialBody
 {
 public:
