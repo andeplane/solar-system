@@ -18,6 +18,7 @@ void SolarSystem::calculateForcesAndEnergy()
     m_angularMomentum.zeros();
 
     for(CelestialBody &body : m_bodies) {
+        // Reset forces on all bodies
         body.force.zeros();
     }
 
