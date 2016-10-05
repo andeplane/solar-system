@@ -32,6 +32,7 @@ int main(int numArguments, char **arguments)
     Euler integrator(dt);
     for(int timestep=0; timestep<numTimesteps; timestep++) {
         integrator.integrateOneStep(solarSystem);
+        solarSystem.writeToFile("positions.xyz");
     }
 
     cout << "I just created my first solar system that has " << solarSystem.bodies().size() << " objects." << endl;

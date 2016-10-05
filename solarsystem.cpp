@@ -1,4 +1,6 @@
 #include "solarsystem.h"
+#include <iostream>
+using namespace std;
 
 SolarSystem::SolarSystem() :
     m_kineticEnergy(0),
@@ -53,6 +55,23 @@ double SolarSystem::potentialEnergy() const
 double SolarSystem::kineticEnergy() const
 {
     return m_kineticEnergy;
+}
+
+void SolarSystem::writeToFile(string filename)
+{
+    if(!m_file.good()) {
+        m_file.open(filename.c_str(), ofstream::out);
+        if(!m_file.good()) {
+            cout << "Error opening file " << filename << ". Aborting!" << endl;
+            terminate();
+        }
+    }
+
+    m_file << numberOfBodies() << endl;
+    m_file << "Comment line that needs to be here" << endl;
+    for(CelestialBody &body : m_bodies) {
+        m_file << "1 " << body.position.x() << " " << body.position.y() << " " << body.position.z() << "\n";
+    }
 }
 
 vec3 SolarSystem::angularMomentum() const
