@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cmath>
+#include <stdlib.h>
 #include "solarsystem.h"
 #include "euler.h"
-
 using namespace std;
 
 int main(int numArguments, char **arguments)
