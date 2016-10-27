@@ -15,7 +15,7 @@ int main(int numArguments, char **arguments)
     // This can then be used to modify properties or print properties of the body if desired
     // Use with: solarSystem.createCelestialBody( position, velocity, mass );
 
-    CelestialBody &sun = solarSystem.createCelestialBody( vec3(0,0,0), vec3(0,0,0), 1.0 );
+    solarSystem.createCelestialBody( vec3(0,0,0), vec3(0,0,0), 1.0 );
 
     // We don't need to store the reference, but just call the function without a left hand side
     solarSystem.createCelestialBody( vec3(1, 0, 0), vec3(0, 2*M_PI, 0), 3e-6 );

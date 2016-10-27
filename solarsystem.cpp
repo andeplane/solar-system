@@ -1,5 +1,6 @@
 #include "solarsystem.h"
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 SolarSystem::SolarSystem() :
@@ -8,16 +9,14 @@ SolarSystem::SolarSystem() :
 {
 }
 
-CelestialBody& SolarSystem::createCelestialBody(vec3 position, vec3 velocity, double mass) {
+void SolarSystem::createCelestialBody(vec3 position, vec3 velocity, double mass) {
     m_bodies.push_back( CelestialBody(position, velocity, mass) );
-    return m_bodies.back(); // Return reference to the newest added celstial body
 }
 
 void SolarSystem::calculateForcesAndEnergy()
 {
     m_kineticEnergy = 0;
     m_potentialEnergy = 0;
-    m_angularMomentum.zeros();
 
     for(CelestialBody &body : m_bodies) {
         // Reset forces on all bodies
@@ -70,13 +69,8 @@ void SolarSystem::writeToFile(string filename)
     m_file << numberOfBodies() << endl;
     m_file << "Comment line that needs to be here. Balle." << endl;
     for(CelestialBody &body : m_bodies) {
-        m_file << "1 " << body.position.x() << " " << body.position.y() << " " << body.position.z() << "\n";
+        m_file << "1 " << setprecision(10) << body.position.x() << " " << setprecision(10) << body.position.y() << " " << setprecision(10) << body.position.z() << "\n";
     }
-}
-
-vec3 SolarSystem::angularMomentum() const
-{
-    return m_angularMomentum;
 }
 
 std::vector<CelestialBody> &SolarSystem::bodies()
