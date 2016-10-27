@@ -15,5 +15,6 @@ HEADERS += \
     solarsystem.h \
     vec3.h \
     euler.h \
-    velocityverlet.h
+    velocityverlet.h \
+    random.h
 
