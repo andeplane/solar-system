@@ -1,18 +1,14 @@
 #include "euler.h"
 #include "solarsystem.h"
 
-Euler::Euler(double dt) :
-    m_dt(dt)
-{
+Euler::Euler() { }
 
-}
-
-void Euler::integrateOneStep(SolarSystem &system)
+void Euler::integrateOneStep(SolarSystem &system, double dt)
 {
     system.calculateForcesAndEnergy();
 
     for(CelestialBody &body : system.bodies()) {
-        body.position += body.velocity*m_dt;
-        body.velocity += body.force / body.mass * m_dt;
+        body.position += body.velocity*dt;
+        body.velocity += body.force / body.mass * dt;
     }
 }

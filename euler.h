@@ -5,9 +5,8 @@
 class Euler
 {
 public:
-    double m_dt;
-    Euler(double dt);
-    void integrateOneStep(class SolarSystem &system);
+    Euler();
+    void integrateOneStep(class SolarSystem &system, double dt);
 };
 
 #endif // EULER_H

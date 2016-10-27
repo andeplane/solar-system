@@ -3,12 +3,16 @@
 #include <stdlib.h>
 #include "solarsystem.h"
 #include "euler.h"
+#include "velocityverlet.h"
 using namespace std;
 
 int main(int numArguments, char **arguments)
 {
-    int numTimesteps = 1000;
-    if(numArguments >= 2) numTimesteps = atoi(arguments[1]);
+    double T = 1.0;
+    double dt = 0.001;
+    if(numArguments >= 2) T = atof(arguments[1]);
+    if(numArguments >= 3) dt = atof(arguments[2]);
+    int numTimesteps = T/dt;
 
     SolarSystem solarSystem;
     // We create new bodies like this. Note that the createCelestialBody function returns a reference to the newly created body
@@ -28,10 +32,10 @@ int main(int numArguments, char **arguments)
         cout << "The position of this object is " << body.position << " with velocity " << body.velocity << endl;
     }
 
-    double dt = 0.001;
-    Euler integrator(dt);
+    VelocityVerlet integrator;
+    // Euler integrator;
     for(int timestep=0; timestep<numTimesteps; timestep++) {
-        integrator.integrateOneStep(solarSystem);
+        integrator.integrateOneStep(solarSystem, dt);
         solarSystem.writeToFile("positions.xyz");
     }
 
